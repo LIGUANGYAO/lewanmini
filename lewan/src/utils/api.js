@@ -5,6 +5,7 @@ const apis = {
     HomePageList: "/api/Banner/HomePageList",    //首页banner
     CategoryList: "/api/Productcategory/CategoryList",   //获取首页几大板块
     ProductList: "/api/Product/ProductList",     //首页获取商品列表
+    ProductExpressList: "/api/Product/ProductExpressList",     //首页获取快递列表
     UserPersonal: "/api/User/UserPersonal",  //获取用户基本信息
 }
 

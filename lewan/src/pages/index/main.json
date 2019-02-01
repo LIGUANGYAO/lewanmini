@@ -1,3 +1,6 @@
-{
-  "navigationBarTitleText": "乐玩联盟"
+ {
+"navigationBarTitleText":"乐玩联盟", 
+"enablePullDownRefresh":true, 
+"backgroundTextStyle":"dark", 
+"backgroundColor":"#f2f2f2"
 }

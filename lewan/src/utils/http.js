@@ -44,6 +44,7 @@ const http =  {
             console.log(res.data)
           // fail
           wx.hideLoading(); 
+          wx.showToast({title: res.data,icon: 'none'})
           reject(error); 
         }, 
         complete:function () {

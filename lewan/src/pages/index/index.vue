@@ -1,41 +1,60 @@
 <template>
   <div>
     <div>
-      <swiper class="swiper" indicator-dots="true" autoplay="true" circular="true" interval="2200" duration="1000" indicator-color="#FFFFFF" indicator-active-color="#E1B872">
+      
+    </div>
+    <div>
+      <swiper class="swiper" indicator-dots="true" autoplay="true" circular="true" interval="2200" duration="500" indicator-color="#FFFFFF" indicator-active-color="#E1B872">
         <block v-for="(item, index) in bannerList" :key="index">
             <swiper-item>
-                <image :src="item.pic" class="slide-image" mode="scaleToFill"/>
+                <image v-if="item.pic" :src="item.pic" class="slide-image" lazy-load mode="scaleToFill"/>
             </swiper-item>
         </block>
       </swiper>
     </div>
     <div class="category_box">
       <div class="category_list" v-for="(item,index) in CategoryList" :key="index">
-        <img :src="item.cate_icon"/>
+        <img v-if="item.cate_icon" lazy-load :src="item.cate_icon"/>
         <div class="category_name">{{ item.cate_name }}</div>
       </div>
     </div>
     <div>
       <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo">用户授权</button>
     </div>
-    
+    <div>
+      <productCard :item="item" :index="index"  v-for="(item,index) in ProductList" :key="index" :level="level"/>
+    </div>
   </div>
 </template>
 
 <script>
-// import Swiper from "@/components/swiper";
+import productCard from "@/components/productCard";
 
 export default {
+  onReachBottom() {   // 上拉加载，拉到底部触发
+    // 到这底部在这里需要做什么事情
+    console.log("上拉加载")
+    // this.loadMore();
+  },
+  async onPullDownRefresh() {  // 下拉刷新方法，与methods方法同级
+    console.log("下拉刷新")
+    // 停止下拉刷新
+    wx.stopPullDownRefresh();
+  },
   data() {
     return {
+      token: 'cca9bc22459d4a254a89a24fb084bfcc',
       bannerList: [], 
       CategoryList: [],
       ProductList: [],
+      ProductExpressList: [],
+      UserPersonal: {},
+      level: 2,
       userInfo: {}
     };
   },
   components: {
-    // Swiper
+    productCard
   },
 
   created() {
@@ -48,19 +67,26 @@ export default {
         console.log(res)
         if (res.code) {
           // this.$http.post(this.$apis.WechatAuthorize, {
-          //   code: code + "&state",
+            //   code: code + "&state",
           //   recode: localStorage.getItem("leaderRecode") || null,
           // })
           // .then(data => {
             
-          // })
+            // })
         }
       }
     });
-    wx.setStorage({
-    key:"key",
-      data:"吴潘"
+    wx.setNavigationBarTitle({
+      title: "当前页面"
     })
+    wx.setStorage({
+      key:"userInfo",
+      data:{
+        name: "吴潘",
+        sex: "男"
+        }
+    })
+    // wx.clearStorage();  //清除缓存
   },
   methods: {
     getSetting(){
@@ -70,11 +96,11 @@ export default {
             wx.getUserInfo({
               success: function(res) {
                 console.log(res.userInfo) //用户已经授权过
-                console.log('用户已经授权过')
+                wx.showToast({title: '用户已经授权过',icon: 'none'})
               }
             })
           }else{
-            console.log('用户还未授权过')
+            wx.showToast({title: '用户还未授权过',icon: 'none'})
           }
         }
       })
@@ -83,9 +109,9 @@ export default {
     bindGetUserInfo(e) {
       console.log(e.mp.detail.userInfo)
       if (e.mp.detail.rawData){ //用户按了允许授权按钮
-        console.log('用户按了允许授权按钮')
+        wx.showToast({title: '用户按了允许授权按钮',icon: 'none',mask: 'true'})
       } else { //用户按了拒绝按钮
-        console.log('用户按了拒绝按钮')
+        wx.showToast({title: '用户按了拒绝按钮',icon: 'none',mask: 'true'})
       }
     },
     async getData() {
@@ -118,21 +144,41 @@ export default {
         });
       this.ProductList = []; //商品列表
       let ProductList = await this.$http.post(this.$apis.ProductList, {
-        token: token,
+        token: this.token,
         type: 2, // int    |是|1未定位 2已定位|
         bursting: null, // int    |是|1获取爆款商品 必须定位|
-        paging: pageData.page, //int    |否|分页默认第一页|
-        paged: pageData.psize, //  | int    |否|分页条数默认10条|
-        title: title, // | string |否|商品名搜索|
+        paging: 1, //int    |否|分页默认第一页|
+        paged: 10, //  | int    |否|分页条数默认10条|
+        title: null, // | string |否|商品名搜索|
         cateid: null, //| id     |否|商品分类|
-        sales: salesOrder, //| int    |否|销售量 0取消 1降序 2升序 |
-        price: priceOrder, //| int    |否|价格   0取消 1降序 2升序|
-        distance: distanceOrder, //| int    |否|距离 0取消距离 1离我最近|
-        lat: localStorage.getItem("latitude") || 30.65618, //   | string |是|用户纬度 选择了距离必传|
-        lng: localStorage.getItem("longitude") || 104.08329 //   | string |是|用户经度 选择了距离必传| 
+        sales: 0, //| int    |否|销售量 0取消 1降序 2升序 |
+        price: 0, //| int    |否|价格   0取消 1降序 2升序|
+        distance: 0, //| int    |否|距离 0取消距离 1离我最近|
+        lat: 30.65618, //   | string |是|用户纬度 选择了距离必传|
+        lng: 104.08329 //   | string |是|用户经度 选择了距离必传| 
       })
         .then(data => {
           this.ProductList = data.data;
+        })
+        .catch(data => {
+          
+        });
+      this.ProductExpressList = []; //快递商品列表
+      let ProductExpressList = await this.$http.post(this.$apis.ProductExpressList, {
+        token: this.token
+      })
+        .then(data => {
+          this.ProductExpressList = data.data;
+        })
+        .catch(data => {
+          
+        });
+      this.UserPersonal = {}; //用户个人信息
+      let UserPersonal = await this.$http.post(this.$apis.UserPersonal, {
+        token: this.token
+      })
+        .then(data => {
+          this.UserPersonal = data.data;
         })
         .catch(data => {
           
@@ -176,8 +222,7 @@ export default {
     div{
       font-size: 28rpx;
       color: #333;
-      font-weight: 400;
-
+      font-weight: 500;
     }
   }
 }
