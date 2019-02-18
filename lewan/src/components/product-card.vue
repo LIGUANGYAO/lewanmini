@@ -3,16 +3,16 @@
     <div class="card_box">
         <div v-if="item.product_pic" lazy-load class="left_box" :style="{backgroundImage: 'url(' + item.product_pic + ')'}">
           <div class="newPerson" :class="{'isSoldOut': item.sold_out == 1}" v-if="item.sold_out == 1" >已售罄</div>
-          <div class="generalize">
-            <div>Top</div>
-            <div>{{ index+1 }}</div>
+          <div class="generalize" v-if="index<3">
+            <div class="top">Top</div>
+            <div class="top_number">{{ index+1 }}</div>
           </div>
           <div class="distance">
-            <span>
-              <i class="icon-dingwei"></i>
+            <i class="iconfont icon-dingwei"></i>
+            <span class="distance_area">
               {{ item.region }}
             </span>
-            <span v-if="item.distance">{{ item.distance }}km</span>
+            <span class="distance_number" v-if="item.distance">{{ item.distance }} km</span>
           </div>
         </div>
         <div class="right_box">
@@ -54,6 +54,77 @@ export default {
         background-size: 100% 100%;
         background-repeat: no-repeat;
         border-radius: 10rpx;
+        position: relative;
+        .newPerson{
+          width: 118rpx;
+          height: 46rpx;
+          line-height: 46rpx;
+          background: linear-gradient(to right, #FE6901 0%, #EE0D73 100%);
+          color: #FFFFFF;
+          border-bottom-left-radius: 23rpx;
+          border-top-left-radius: 23rpx;
+          position: absolute;
+          right: -8rpx;
+          top: 12rpx;
+          text-align: center;
+          font-size: 22rpx;
+        }
+        .isSoldOut {
+          background: linear-gradient(to right, #E93317 0%, #FFCB59 100%) !important;
+        }
+        .generalize{
+          width: 50rpx;
+          height: 90rpx;
+          background-color: #FDD99B;
+          color: #333333;
+          border-bottom-left-radius: 25rpx;
+          border-bottom-right-radius: 25rpx;
+          position: absolute;
+          top: -8rpx;
+          left: 12rpx;
+          text-align: center;
+          .top{
+            font-size: 22rpx;
+            color: #333333;
+            width: 100%;
+            height: 40rpx;
+            line-height: 40rpx;
+            float: left;
+          }
+          .top_number{
+            font-size: 36rpx;
+            color: #333333;
+            font-weight: 800;
+            height: 50rpx;
+            width: 100%;
+            line-height: 50rpx;
+            float: left;
+          }
+        }
+        .distance{
+          background-color: rgba(0, 0, 0, 0.6);
+          width: 100%;
+          height: 40rpx;
+          line-height: 40rpx;
+          position: absolute;
+          bottom: 0;
+          color: #FFFFFF;
+          border-bottom-left-radius: 10rpx;
+          border-bottom-right-radius: 10rpx;
+          i{
+            float: left;
+            margin-left: 8rpx;
+          }
+          .distance_area{
+            float: left;
+            font-size: 20rpx;
+          }
+          .distance_number{
+            float: right;
+            margin-right: 10rpx;
+            font-size: 20rpx;
+          }
+        }
     }
     .right_box{
         float: right;
@@ -97,6 +168,9 @@ export default {
                 float: right;
                 margin-right: 3rpx;
             }
+        }
+        .noStopTime{
+          bottom: 0;
         }
         .count_down{
             height: 40rpx;

@@ -21,14 +21,35 @@
     <div>
       <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo">用户授权</button>
     </div>
-    <div>
-      <productCard :item="item" :index="index"  v-for="(item,index) in ProductList" :key="index" :level="level"/>
+    <div class="content">
+      <div>
+        <product-card :item="item" :index="index"  v-for="(item,index) in qianSan" :key="index" :level="level"/>
+      </div>
+      <div class="content_express">
+        <div class="content_express_img">
+          <!-- <img src="" alt=""> -->
+        </div>
+        <!-- <div class="content_express_content">
+          <product-express :item="item" v-for="(item,index) in ProductExpressList" :key="index" :level="level"/>
+        </div> -->
+        <swiper class="swiper_express" display-multiple-items="2.317">
+          <block v-for="(item, index) in ProductExpressList" :key="index">
+              <swiper-item>
+                  <product-express :item="item" :level="level"/>
+              </swiper-item>
+          </block>
+        </swiper>
+      </div>
+      <div>
+        <product-card :item="item" :index="index+3"  v-for="(item,index) in houSan" :key="index" :level="level"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import productCard from "@/components/productCard";
+import ProductCard from "@/components/product-card";
+import ProductExpress from "@/components/product-express";
 
 export default {
   onReachBottom() {   // 上拉加载，拉到底部触发
@@ -54,11 +75,22 @@ export default {
     };
   },
   components: {
-    productCard
+    ProductCard,ProductExpress
   },
-
+  computed:{
+    qianSan: function () {
+      return this.ProductList.filter(function (item,index) {
+        return index<3;
+      })
+    },
+    houSan: function () {
+      return this.ProductList.filter(function (item,index) {
+        return index>=3;
+      })
+    }
+  },
   created() {
-    this.getSetting()
+    this.getSetting();
     this.getData();
   },
   mounted() {
@@ -194,10 +226,10 @@ export default {
 /* 轮播 */
 .swiper{
   height: 294rpx;
-}
-.swiper image{
-   width: 100%;
-   height: 294rpx; 
+  .slide-image{
+    width: 100%;
+    height: 294rpx; 
+  }
 }
 /* 几大板块 */
 .category_box{
@@ -210,6 +242,7 @@ export default {
   -webkit-flex-wrap: wrap; 
   .category_list{
     text-align: center;
+    font-size: 0;
     flex: 1;
     width: 20%;
     min-width: 20%;
@@ -223,6 +256,22 @@ export default {
       font-size: 28rpx;
       color: #333;
       font-weight: 500;
+    }
+  }
+}
+/* 商品列表 */
+.content{
+  .content_express{
+    .content_express_img{
+
+    }
+    .swiper_express{
+      width: 100%;
+      height: 450rpx;
+      margin-left: 12rpx;
+      .swiper-item{
+        // width: 322rpx;
+      }
     }
   }
 }
