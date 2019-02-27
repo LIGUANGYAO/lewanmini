@@ -1,9 +1,13 @@
 {
   "pages": [
+    "pages/reservationList/main",
     "pages/index/main",
     "pages/everydayFaddish/main",
     "pages/reservationCenter/main",
-    "pages/personalCenter/main"
+    "pages/personalCenter/main",
+    
+    "pages/myIndent/main",
+    "pages/commonQuestion/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

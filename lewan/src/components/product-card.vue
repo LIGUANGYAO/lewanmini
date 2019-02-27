@@ -43,8 +43,8 @@ export default {
 <style lang="less" scoped>
 @lewan:#E1B872;
 .card_box{
-    padding: 26rpx 20rpx 26rpx 0;
-    margin-left: 24rpx;
+    padding: 26rpx 16rpx 26rpx 0;
+    margin-left: 18rpx;
     border-bottom: 2rpx solid #f2f2f2; 
     overflow: hidden;
     .left_box{
@@ -150,23 +150,22 @@ export default {
             line-height: 40rpx;
             left: 0;
             .price{
-                font-size: 38rpx;
+                font-size: 34rpx;
                 color: #333333;
                 font-weight: 500;
                 margin-right: 10rpx;
-                letter-spacing: -1rpx;
+                letter-spacing: -2rpx;
             }
             .commission{
-                font-size: 24rpx;
+                font-size: 22rpx;
                 color: #F77917;
                 letter-spacing: -1rpx;
                 font-weight: 500;
             }
             .sold_out{
-                font-size: 24rpx;
+                font-size: 22rpx;
                 color: #999999;
                 float: right;
-                margin-right: 3rpx;
             }
         }
         .noStopTime{

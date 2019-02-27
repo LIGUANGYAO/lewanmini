@@ -4,7 +4,7 @@
       
     </div>
     <div>
-      <swiper class="swiper" indicator-dots="true" autoplay="true" circular="true" interval="2200" duration="500" indicator-color="#FFFFFF" indicator-active-color="#E1B872">
+      <swiper class="swiper" indicator-dots="true" autoplay="true" circular="true" interval="3000" duration="500" indicator-color="#FFFFFF" indicator-active-color="#E1B872">
         <block v-for="(item, index) in bannerList" :key="index">
             <swiper-item>
                 <image v-if="item.pic" :src="item.pic" class="slide-image" lazy-load mode="scaleToFill"/>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div>
-      <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo">用户授权</button>
+      <!-- <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo">用户授权</button> -->
     </div>
     <div class="content">
       <div>
@@ -29,16 +29,16 @@
         <div class="content_express_img">
           <!-- <img src="" alt=""> -->
         </div>
-        <!-- <div class="content_express_content">
+        <div class="content_express_content">
           <product-express :item="item" v-for="(item,index) in ProductExpressList" :key="index" :level="level"/>
-        </div> -->
-        <swiper class="swiper_express" display-multiple-items="2.317">
+        </div>
+        <!-- <swiper class="swiper_express" display-multiple-items="2.317">
           <block v-for="(item, index) in ProductExpressList" :key="index">
               <swiper-item>
                   <product-express :item="item" :level="level"/>
               </swiper-item>
           </block>
-        </swiper>
+        </swiper> -->
       </div>
       <div>
         <product-card :item="item" :index="index+3"  v-for="(item,index) in houSan" :key="index" :level="level"/>
@@ -115,8 +115,9 @@ export default {
       key:"userInfo",
       data:{
         name: "吴潘",
-        sex: "男"
-        }
+        sex: "男",
+
+      }
     })
     // wx.clearStorage();  //清除缓存
   },
