@@ -69,8 +69,9 @@ export default {
     },
     jumpToDetails(id){
       console.log(id)
-      console.log(this.$tool.getDateTime(1547568000))
-    }
+      console.log(this.$global.getDateTime(1547568981, 'yyyy-MM-dd hh:mm:ss'))
+    },
+    
   }
 };
 </script>

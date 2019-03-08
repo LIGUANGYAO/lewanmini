@@ -31,14 +31,8 @@
         </div>
         <div class="content_express_content">
           <product-express :item="item" v-for="(item,index) in ProductExpressList" :key="index" :level="level"/>
+          <text class="last_list" @tap="jumpToProductList(4,'佳品')">更\n多\n佳\n品\n...</text>
         </div>
-        <!-- <swiper class="swiper_express" display-multiple-items="2.317">
-          <block v-for="(item, index) in ProductExpressList" :key="index">
-              <swiper-item>
-                  <product-express :item="item" :level="level"/>
-              </swiper-item>
-          </block>
-        </swiper> -->
       </div>
       <div>
         <product-card :item="item" :index="index+3"  v-for="(item,index) in houSan" :key="index" :level="level"/>
@@ -266,14 +260,22 @@ export default {
     .content_express_img{
 
     }
-    .swiper_express{
-      width: 100%;
-      height: 450rpx;
-      margin-left: 12rpx;
-      .swiper-item{
-        // width: 322rpx;
+    .content_express_content{
+      display: flex;
+      display: -webkit-flex;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling : touch;
+      .last_list{
+        height: 308rpx;
+        width: 80rpx;
+        text-align: center;
+        margin: 12rpx;
+        padding-top: 110rpx;
+        border-radius: 8rpx;
+        box-shadow: 0 3rpx 8rpx 1rpx #E0E0E0;
       }
     }
+    
   }
 }
 </style>
