@@ -5,6 +5,9 @@
     "pages/reservationCenter/main",
     "pages/personalCenter/main",
     
+    "pages/productDetails/main",
+    "pages/productList/main",
+
     "pages/reservationList/main",
     "pages/myIndent/main",
     "pages/commonQuestion/main"

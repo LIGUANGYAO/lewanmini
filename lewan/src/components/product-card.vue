@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="card_box">
+    <div class="card_box" @tap="getId(item.product_id)">
         <div v-if="item.product_pic" lazy-load class="left_box" :style="{backgroundImage: 'url(' + item.product_pic + ')'}">
-          <div class="newPerson" :class="{'isSoldOut': item.sold_out == 1}" v-if="item.sold_out == 1" >已售罄</div>
-          <div class="generalize" v-if="index<3">
+          <div class="newPerson" :class="{'isSoldOut': item.sold_out == 1}" v-if="item.sold_out == 1">已售罄</div>
+					<div class="newPerson" v-else-if="item.sold_out == 0 && isNew==true">限首次注册</div>
+          <div class="generalize" v-if="isHomePage && index<3">
             <div class="top">Top</div>
             <div class="top_number">{{ index+1 }}</div>
           </div>
@@ -36,8 +37,13 @@ export default {
       data: {}
     };
   },
-  props: ["item","index","level"],
-  created() {}
+  props: ["item","index","level","isNew","isHomePage"],
+  created() {},
+  methods: {
+    getId(product_id){
+      this.$emit("goToDetails",product_id)
+    }
+  },
 };
 </script>
 <style lang="less" scoped>

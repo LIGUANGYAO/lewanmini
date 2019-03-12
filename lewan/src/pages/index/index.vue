@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="index_box">
     <div>
       
     </div>
@@ -13,29 +13,38 @@
       </swiper>
     </div>
     <div class="category_box">
-      <div class="category_list" v-for="(item,index) in CategoryList" :key="index">
+      <div class="category_list" @tap="jumpToProductList(item.cate_id,item.cate_name)" v-for="(item,index) in CategoryList" :key="index">
         <img v-if="item.cate_icon" lazy-load :src="item.cate_icon"/>
         <div class="category_name">{{ item.cate_name }}</div>
       </div>
     </div>
-    <div>
-      <!-- <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo">用户授权</button> -->
+    <!-- <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo">用户授权</button> -->
+    <div class="sort_mode_box">
+      <span class="filter_active" dataVal='0'>综合</span>
+			<span class="sales_order" dataVal='1' salesOrder="0">销量</span>
+			<span class="price_after price_order" dataVal='2' priceOrder="0">
+        价格
+        <i class="iconfont icon-paixujiantoushang" dataVal='0'></i>
+        <i class="iconfont icon-paixujiantouxia" dataVal="1"></i>
+      </span>
+			<span class="distanceOrder" dataVal='3' distanceOrder="0">距离</span>
     </div>
     <div class="content">
       <div>
-        <product-card :item="item" :index="index"  v-for="(item,index) in qianSan" :key="index" :level="level"/>
+        <product-card v-on:goToDetails="goToDetails" :item="item" :index="index"  v-for="(item,index) in qianSan" :key="index" :level="level" :isNew="false" :isHomePage="true"/>
       </div>
-      <div class="content_express">
+      <div class="content_express" v-if="ProductExpressList.length">
         <div class="content_express_img">
           <!-- <img src="" alt=""> -->
         </div>
         <div class="content_express_content">
-          <product-express :item="item" v-for="(item,index) in ProductExpressList" :key="index" :level="level"/>
-          <text class="last_list" @tap="jumpToProductList(4,'佳品')">更\n多\n佳\n品\n...</text>
+          <product-express v-on:goToDetails="goToDetails" :item="item" v-for="(item,index) in ProductExpressList" :key="index" :level="level" :isNew="false" :isHomePage="true"/>
+          <div class="last_list" @tap="jumpToProductList(4,'佳品')">更<br/>多<br/>佳<br/>品<br/> ...</div>
+          <div class="space_box"></div>
         </div>
       </div>
       <div>
-        <product-card :item="item" :index="index+3"  v-for="(item,index) in houSan" :key="index" :level="level"/>
+        <product-card v-on:goToDetails="goToDetails" :item="item" :index="index+3"  v-for="(item,index) in houSan" :key="index" :level="level"/>
       </div>
     </div>
   </div>
@@ -210,6 +219,16 @@ export default {
         .catch(data => {
           
         });
+    },
+    goToDetails(product_Id){
+      wx.navigateTo({
+        url: '/pages/productDetails/main?productId=' + product_Id
+      })
+    },
+    jumpToProductList(proListId,proListName){
+      wx.navigateTo({
+        url: '/pages/productList/main?proListId=' + proListId + '&proListName=' + proListName
+      })
     }
   }
 };
@@ -218,6 +237,10 @@ export default {
 <style scoped lang="less">
 /* 公共样式 */
 
+/*背景样式*/
+.index_box{
+  background-color: #F5F6FA;
+}
 /* 轮播 */
 .swiper{
   height: 294rpx;
@@ -228,6 +251,7 @@ export default {
 }
 /* 几大板块 */
 .category_box{
+  background-color: #ffffff;
   padding: 18rpx 0;
   display: flex;
   display: -webkit-flex;
@@ -254,8 +278,38 @@ export default {
     }
   }
 }
+/*筛选按钮*/
+.sort_mode_box{
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
+  -webkit-align-items: center;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  margin-top: 16rpx;
+  padding-bottom: 10rpx;
+  background-color: #ffffff;
+  span{
+    color: #333333;
+    font-weight: 800;
+    font-size: 32rpx;
+    padding: 10rpx 16rpx 8rpx 16rpx;
+    position: relative;
+    .iconfont{
+      position: absolute;
+      right: -10rpx;
+      top: 16rpx;
+    }
+
+  }
+  .filter_active{
+    border-bottom: 8rpx solid #E1B872;
+  }
+}
+
 /* 商品列表 */
 .content{
+  background-color: #ffffff;
   .content_express{
     .content_express_img{
 
@@ -263,16 +317,25 @@ export default {
     .content_express_content{
       display: flex;
       display: -webkit-flex;
+      flex-wrap: nowrap;
+      -webkit-flex-wrap: nowrap;
       overflow-x: scroll;
       -webkit-overflow-scrolling : touch;
+      width: 100%;
       .last_list{
-        height: 308rpx;
+        flex:0 0 auto;
+        height: 318rpx;
         width: 80rpx;
         text-align: center;
         margin: 12rpx;
         padding-top: 110rpx;
         border-radius: 8rpx;
         box-shadow: 0 3rpx 8rpx 1rpx #E0E0E0;
+      }
+      .space_box{
+        flex:0 0 auto;
+        width: 1rpx;
+        height: 318rpx;
       }
     }
     

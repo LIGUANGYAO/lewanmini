@@ -1,12 +1,19 @@
 const apis = {
     // 用户授权
     WechatAuthorize: "/api/Wechat/WechatAuthorize",    //用户授权，code换取token
+
     // 首页
     HomePageList: "/api/Banner/HomePageList",    //首页banner
     CategoryList: "/api/Productcategory/CategoryList",   //获取首页几大板块
     ProductList: "/api/Product/ProductList",     //首页获取商品列表
     ProductExpressList: "/api/Product/ProductExpressList",     //首页获取快递列表
     UserPersonal: "/api/User/UserPersonal",  //获取用户基本信息
+    //分类商品列表
+    ProductList: "/api/Product/ProductList",    //获取商品分类列表
+    //商品详情页面
+    ProductDetails: "/api/Product/ProductDetails", //商品详情
+
+    
     //预约中心
     ConsumeBookedProduct: "/api/Yuyue/ConsumeBookedProduct", //获取预约中心可预约列表
     //我的订单

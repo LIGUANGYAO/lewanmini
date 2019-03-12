@@ -1,5 +1,5 @@
 <template>
-  <div class="exList">
+  <div class="exList" @tap="getId(item.product_id)">
     <div class="exImg" :style="{backgroundImage: 'url(' + item.product_pic + ')'}"></div>
     <div class="exName">【{{ item.merchant_name }}】 {{ item.product_name }}</div>
     <div class="rxPrice">
@@ -19,7 +19,12 @@ export default {
       data: {}
     };
   },
-  props: ["item", "level"]
+  props: ["item", "level"],
+  methods: {
+    getId(product_id){
+      this.$emit("goToDetails",product_id)
+    }
+  },
 };
 </script>
 <style lang="less" scoped>

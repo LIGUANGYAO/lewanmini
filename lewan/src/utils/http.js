@@ -38,7 +38,11 @@ const http =  {
             console.log(res.data)
           // success
           wx.hideLoading(); 
-          resolve(res.data); 
+          if(res.data.code == 200){
+            resolve(res.data);
+          }else{
+            wx.showToast({title: res.data.message,icon: 'none'})
+          }
         }, 
         fail:function (error) {
             console.log(res.data)
