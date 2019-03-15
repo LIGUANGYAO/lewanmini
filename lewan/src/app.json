@@ -5,8 +5,8 @@
     "pages/reservationCenter/main",
     "pages/personalCenter/main",
     
-    "pages/productDetails/main",
     "pages/productList/main",
+    "pages/productDetails/main",
 
     "pages/reservationList/main",
     "pages/myIndent/main",
@@ -51,5 +51,10 @@
   "networkTimeout": {
     "request": 10000,
     "downloadFile": 10000
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的距离计算"
+    }
   }
 }

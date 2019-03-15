@@ -50,6 +50,10 @@ export default {
     };
     this.getData();
   },
+  onUnload: function(){
+    this.bannerList = []; //banner列表
+    this.ProductList = []; //商品列表
+  },
   components: { 
     ProductCard,
   },

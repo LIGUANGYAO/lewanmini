@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import 'mpvue-weui/src/style/weui.css';
 import http from '@/utils/http';//导入封装好的http
 import apis from '@/utils/api';//导入封装好的apis
 import tool from '@/utils/tool';//导入封装好的各种工具
