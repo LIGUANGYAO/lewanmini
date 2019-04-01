@@ -38,7 +38,7 @@ export default {
     };
   },
   props: ["item","index","level","isNew","isHomePage"],
-  created() {},
+  mounted() {},
   methods: {
     getId(product_id){
       this.$emit("goToDetails",product_id)

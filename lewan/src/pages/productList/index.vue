@@ -32,7 +32,7 @@ import ProductCard from "@/components/product-card";
 export default {
   data() {
     return {
-      token: 'cca9bc22459d4a254a89a24fb084bfcc',
+      token: 'c058048709c83de14ab803392b4dc1ac',
       proListId: '',  
       category: '',
       bannerList: [],

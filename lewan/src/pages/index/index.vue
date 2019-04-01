@@ -35,16 +35,16 @@
       </div>
       <div class="content_express" v-if="ProductExpressList.length">
         <div class="content_express_img">
-          <!-- <img src="" alt=""> -->
+          <img src="http://oss.lewan6.ren/uploads/idcard/20190401/f278c8e70a7fa696767fcf696e13a3891091b4c6.jpg" alt="">
         </div>
         <div class="content_express_content">
-          <product-express v-on:goToDetails="goToDetails" :item="item" v-for="(item,index) in ProductExpressList" :key="index" :level="level" :isNew="false" :isHomePage="true"/>
-          <div class="last_list" @tap="jumpToProductList(4,'佳品')">更<br/>多<br/>佳<br/>品<br/> ...</div>
+          <product-express v-on:goToDetails="goToDetails" :item="item" v-for="(item,index) in ProductExpressList" :key="index" :level="level"/>
+          <div class="last_list" @tap="jumpToProductList(4,'佳品')">更<br/>多<br/>佳<br/>品<br/>...</div>
           <div class="space_box"></div>
         </div>
       </div>
       <div>
-        <product-card v-on:goToDetails="goToDetails" :item="item" :index="index+3"  v-for="(item,index) in houSan" :key="index" :level="level"/>
+        <product-card v-on:goToDetails="goToDetails" :item="item" :index="index+3"  v-for="(item,index) in houSan" :key="index" :level="level" :isNew="false" :isHomePage="true"/>
       </div>
     </div>
   </div>
@@ -67,7 +67,7 @@ export default {
   },
   data() {
     return {
-      token: 'cca9bc22459d4a254a89a24fb084bfcc',
+      token: 'c058048709c83de14ab803392b4dc1ac',
       bannerList: [], 
       CategoryList: [],
       ProductList: [],
@@ -312,7 +312,10 @@ export default {
   background-color: #ffffff;
   .content_express{
     .content_express_img{
-
+      img{
+        width: 100%;
+        height: 96rpx;
+      }
     }
     .content_express_content{
       display: flex;

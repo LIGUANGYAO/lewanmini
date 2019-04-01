@@ -62,48 +62,65 @@
     </div>
     <div class="content_box">
       <div class="content_header_box">
-        <div class="content_header_isPosition">
+        <div class="content_header_isPosition" id="isPositionBtn" :class="{'isFixdCss': isFixd}">
           <span class="content_sec" :class="{'content_checked': secTitle == 1}" @tap="scrollTo(1)">特色介绍</span>
 					<span class="content_sec" :class="{'content_checked': secTitle == 2}" @tap="scrollTo(2)">购买须知</span>
         </div>
       </div>
       <div class="content_text_box">
         <!--特色介绍-->
-        <div class="information" id="information">
+        <div class="information" id="scroll1">
           <div class="information_img" style="background-image: url('http://oss.lewan6.ren/uploads/html/20190315/51cb90cdc740648fe56d1e8cf9e921ef43e0fe46png');">特色介绍</div>
-          <div class="information_text" id="informationText" v-html="information_text"></div>
+          <!-- <div class="information_text" id="informationText" v-html="information_text"></div> -->
         </div>
         <!--购买须知-->
-        <div class="purchase_notes" id="purchaseNotes">
+        <div class="purchase_notes" id="scroll2">
           <div class="">
             <p>【产品详情】</p>
-            <div class="purchase_notesText" v-html="product_info"></div>
+            <!-- <div class="purchase_notesText" v-html="product_info"></div> -->
           </div>
           <div class="">
             <p>【使用方法】</p>
-            <div class="purchase_notesText" v-html="product_useinfo"></div>
+            <!-- <div class="purchase_notesText" v-html="product_useinfo"></div> -->
           </div>
           <div class="">
             <p>【温馨提示】</p>
-            <div class="purchase_notesText" v-html="product_notice"></div>
+            <!-- <div class="purchase_notesText" v-html="product_notice"></div> -->
           </div>
         </div>
-        
+      </div>
+      <div class="content_space"></div>
+      <div class="content_footer_box" v-if="hotpush.length">
+        <!-- 更多推荐 -->
+        <div class="content_footer_header">更多推荐</div>
+         <more-product v-for="(item,index) in hotpush" :key="index" :item="item" :level="level"/>
+        <!-- <div v-for="(item,index) in proDetails.hotpush" :key="index" >{{item.merchant_name}}</div> -->
+        <!-- <swiper class="swiper" indicator-dots="true" indicator-color="#FFFFFF" indicator-active-color="#E1B872">
+          <block> -->
+              <!-- <swiper-item>
+                  <more-product v-on:goToDetails="goToDetails" v-for="(item,index) in proDetails.hotpush" :key="index" :item="item" :level="level"/>
+              </swiper-item> -->
+              <!-- <swiper-item>
+                  <more-product v-on:goToDetails="goToDetails" :item="item" v-for="(item,index) in proDetails.hotpush.slice(4, 8)" :key="index" :level="level"/>
+              </swiper-item> -->
+          <!-- </block>
+        </swiper> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
+import MoreProduct from '@/components/more-product';
 export default {
   data() {
     return {
-      token: 'cca9bc22459d4a254a89a24fb084bfcc',
+      token: 'c058048709c83de14ab803392b4dc1ac',
       productId: '205',
       latitude: 30.65618,
       longitude: 104.08329,
       proDetails: {},
+      hotpush: [], //热推商品
       level: 1,
       myRecode: '',
       priceIndex: 0,	//默认选中第一个
@@ -113,15 +130,61 @@ export default {
       merchant_ssq: '',
       address: '',
       secTitle: 1,
+      isFixd: false,  //是否吸顶
+      isPositionMenuTop: '',  //切换按钮距离顶部位置
+      scroll1: '',  //特色介绍距离顶部位置
+      scroll2: '',  //购买须知距离顶部位置
       information_text: '', //特色介绍
       product_info: '', //产品详情
       product_useinfo: '',//使用方法
       product_notice: '',//温馨提示
     };
   },
+  components: {
+    MoreProduct
+  },
+  // computed:{
+  //   qianSi: function () {
+  //     console.log(this.proDetails.hotpush)
+  //     return this.proDetails.hotpush.filter(function (item,index) {
+  //       return index<4;
+  //     })
+  //   },
+  //   houSi: function () {
+  //     return this.proDetails.hotpush.filter(function (item,index) {
+  //       return index>=4 && index<8;
+  //     })
+  //   }
+  // },
+  // watch:{ 
+  //   proDetails: function(val){
+  //     console.log(val)
+  //   }
+  // }, 
   onLoad: function(option){
     // this.productId = option.productId;
     this.getData();
+  },
+  onPageScroll:function(e){
+    let _this = this;
+    let scrollTop = e.scrollTop;
+    if(_this.isPositionMenuTop <= 0 || _this.isPositionMenuTop == ''){
+      wx.createSelectorQuery().select('#isPositionBtn').boundingClientRect(function(res){
+        _this.isPositionMenuTop = res.top + scrollTop;
+      }).exec()
+      wx.createSelectorQuery().select('#scroll1').boundingClientRect(function(res){
+        _this.scroll1 = res.top + scrollTop -44;
+      }).exec()
+      wx.createSelectorQuery().select('#scroll2').boundingClientRect(function(res){
+        _this.scroll2 = res.top + scrollTop -44;
+      }).exec()
+    }else{
+      if(scrollTop > _this.isPositionMenuTop){
+        _this.isFixd =true;
+      }else{
+        _this.isFixd =false;
+      }
+    }
   },
   components: { },
   created() {
@@ -133,6 +196,7 @@ export default {
   methods: {
     async getData() {
       this.proDetails = {}; //商品详情
+      this.hotpush = []; //热推商品
       this.merchant_ssq = '';
       this.address = '';
       this.information_text = '';
@@ -148,15 +212,16 @@ export default {
         })
         .then(data => {
           this.proDetails = data.data;
+          this.hotpush = data.data.hotpush;
           this.lat = data.data.details.shop[0].merchant_lat;
 					this.lng = data.data.details.shop[0].merchant_lng;
           this.merchant_ssq = data.data.details.shop[0].merchant_ssq;
           this.address = data.data.details.shop[0].merchant_address;
           
-					this.information_text = data.data.details.product_description.replace(/\<img/gi, '<img style="width:100%;height:auto" ');
-					this.product_info = data.data.details.product_info.replace(/\<img/gi, '<img style="width:100%;height:auto" ');
-					this.product_useinfo = data.data.details.product_useinfo.replace(/\<img/gi, '<img style="width:100%;height:auto" ');
-					this.product_notice = data.data.details.product_notice.replace(/\<img/gi, '<img style="width:100%;height:auto" ');
+					this.information_text = data.data.details.product_description.replace(/\<img/gi, '<img lazy-load mode="scaleToFill" style="width:100%;height:auto" ');
+					this.product_info = data.data.details.product_info.replace(/\<img/gi, '<img lazy-load mode="scaleToFill" style="width:100%;height:auto" ');
+					this.product_useinfo = data.data.details.product_useinfo.replace(/\<img/gi, '<img lazy-load mode="scaleToFill" style="width:100%;height:auto" ');
+					this.product_notice = data.data.details.product_notice.replace(/\<img/gi, '<img lazy-load mode="scaleToFill" style="width:100%;height:auto" ');
         })
         .catch(data => {
           
@@ -206,13 +271,31 @@ export default {
     },
     scrollTo: function(index){
       this.secTitle = index;
-    }
+      if(index == 1){
+        wx.pageScrollTo({
+          scrollTop: this.scroll1,
+          duration: 500
+        })
+      }else if(index ==2){
+        wx.pageScrollTo({
+          scrollTop: this.scroll2,
+          duration: 500
+        })
+      }
+    },
+    goToDetails(product_Id){
+      wx.navigateTo({
+        url: '/pages/productDetails/main?productId=' + product_Id
+      })
+    },
   }
 }
 </script>
 
 <style scoped lang="less">
 .header_box{
+  width: 100%;
+  overflow-x: hidden;
   .header_banner_box{
     /* 轮播 */
     .swiper{
@@ -241,9 +324,6 @@ export default {
     }
     .count_down{
       float: right;
-    }
-    .count_down_time_show{
-
     }
   }
   .new_priceBox{
@@ -392,6 +472,7 @@ export default {
 // 内容
 .content_box{
   .content_header_box{
+    width: 100%;
     height: 88rpx;
     .content_header_isPosition{
       display: flex;
@@ -401,6 +482,8 @@ export default {
       font-size: 32rpx;
       font-weight: 500;
       color: #333333;
+      background-color: #FFFFFF;
+      width: 100%;
       height: 88rpx;
       line-height: 88rpx;
       border-bottom: 1rpx solid #f2f2f2;
@@ -413,9 +496,14 @@ export default {
         left: 30%;
         bottom: 0;
         width: 40%;
-        height: 5rpx;
+        height: 6rpx;
         background-color: #F77917;
       }
+    }
+    .isFixdCss{
+      position: fixed;
+      top: 0;
+      left: 0;
     }
   }
   .content_text_box{
@@ -431,6 +519,21 @@ export default {
         color: #333333;
         margin: 20rpx auto;
       }
+    }
+  }
+  .content_space{
+    widows: 100%;
+    background-color: #f2f2f2;
+    height: 10rpx;
+  }
+  .content_footer_box{
+    .content_footer_header{
+      width: 100%;
+      text-align: center;
+      height: 70rpx;
+      line-height: 70rpx;
+      font-size: 32rpx;
+      color:#333333;
     }
   }
 }

@@ -37,7 +37,6 @@ const http =  {
         success:function (res) {
             console.log(res.data)
           // success
-          wx.hideLoading(); 
           if(res.data.code == 200){
             resolve(res.data);
           }else{
@@ -47,7 +46,6 @@ const http =  {
         fail:function (error) {
             console.log(res.data)
           // fail
-          wx.hideLoading(); 
           wx.showToast({title: res.data,icon: 'none'})
           reject(error); 
         }, 

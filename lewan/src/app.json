@@ -1,12 +1,12 @@
 {
   "pages": [
+    "pages/productDetails/main",
     "pages/index/main",
     "pages/everydayFaddish/main",
     "pages/reservationCenter/main",
     "pages/personalCenter/main",
     
     "pages/productList/main",
-    "pages/productDetails/main",
 
     "pages/reservationList/main",
     "pages/myIndent/main",
