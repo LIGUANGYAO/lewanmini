@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { formatTime } from '@/utils/tool'
 
 export default {
   components: {
@@ -24,7 +23,7 @@ export default {
 
   created () {
     const logs = (wx.getStorageSync('logs') || [])
-    this.logs = logs.map(log => formatTime(new Date(log)))
+    this.logs = logs.map(log => this.$tool.getDateTime(log/1000, 'Y/MM/dd hh:mm:ss'))
   }
 }
 </script>

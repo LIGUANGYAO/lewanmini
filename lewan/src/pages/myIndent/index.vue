@@ -30,7 +30,7 @@
 export default {
   data() {
     return {
-      token: 'c058048709c83de14ab803392b4dc1ac',
+      token: '',
       header_index: 1,
       page: 1,
 			psize: 10,
@@ -43,6 +43,7 @@ export default {
     
   },
   created() {
+    this.token = wx.getStorageSync('token')
     this.getData();
   },
   mounted() {

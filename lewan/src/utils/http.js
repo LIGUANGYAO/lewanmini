@@ -1,6 +1,6 @@
 // import wx from 'wx'; //引用微信小程序wx对象
-// var BASE_SERVER = "http://weixin.lewan6.ren";
-var BASE_SERVER = "http://cs.lewan6.ren";
+// const BASE_SERVER = "http://weixin.lewan6.ren";
+const BASE_SERVER = "http://cs.lewan6.ren";
 
 var provincecode;
 var citycode;
@@ -55,7 +55,8 @@ const http =  {
         }
       })
     })
-  }
+  },
+  BASE_SERVER: BASE_SERVER,
 }
 
 export default http; //暴露出来供其他文件引用

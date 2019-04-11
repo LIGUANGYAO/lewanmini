@@ -34,7 +34,7 @@ import ReservationCard from "@/components/reservation-card";
 export default {
   data() {
     return {
-      token: 'c058048709c83de14ab803392b4dc1ac',
+      token: '',
       product_name: "",
       product_list: [],
       page: 1,
@@ -47,6 +47,7 @@ export default {
   },
 
   created() {
+    this.token = wx.getStorageSync('token')
     this.getData()
   },
   mounted() {

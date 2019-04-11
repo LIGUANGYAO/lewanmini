@@ -32,7 +32,7 @@ import ProductCard from "@/components/product-card";
 export default {
   data() {
     return {
-      token: 'c058048709c83de14ab803392b4dc1ac',
+      token: '',
       proListId: '',  
       category: '',
       bannerList: [],
@@ -42,6 +42,7 @@ export default {
   },
   onLoad: function(option){
     this.proListId = option.proListId;
+    this.token = wx.getStorageSync('token')
     this.category = option.proListName;
     if(this.proListId == 1){
       this.isNew = true;

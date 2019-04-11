@@ -97,32 +97,31 @@ export default {
     this.getData();
   },
   mounted() {
+    let that = this;
     wx.login({
       success(res) {
         console.log(res)
-        if (res.code) {
-          // this.$http.post(this.$apis.WechatAuthorize, {
-            //   code: code + "&state",
-          //   recode: localStorage.getItem("leaderRecode") || null,
-          // })
-          // .then(data => {
-            
+        wx.setStorageSync('token', 'c058048709c83de14ab803392b4dc1ac')
+        //  wx.setStorage({
+        //   key: 'token',
+        //   data: 'c058048709c83de14ab803392b4dc1ac'
+        //    })
+         if (res.code) {
+            // that.$http.post(that.$apis.SmallProgramCode, {
+            //   code: res.code
             // })
+            // .then(data => {
+              
+            // })
+            // .catch(data => {
+              
+            // });
         }
       }
     });
     wx.setNavigationBarTitle({
       title: "当前页面"
     })
-    wx.setStorage({
-      key:"userInfo",
-      data:{
-        name: "吴潘",
-        sex: "男",
-
-      }
-    })
-    // wx.clearStorage();  //清除缓存
   },
   methods: {
     getSetting(){

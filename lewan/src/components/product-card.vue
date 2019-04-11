@@ -3,7 +3,7 @@
     <div class="card_box" @tap="getId(item.product_id)">
         <div v-if="item.product_pic" lazy-load class="left_box" :style="{backgroundImage: 'url(' + item.product_pic + ')'}">
           <div class="newPerson" :class="{'isSoldOut': item.sold_out == 1}" v-if="item.sold_out == 1">已售罄</div>
-					<div class="newPerson" v-else-if="item.sold_out == 0 && isNew==true">限首次注册</div>
+					<div class="newPerson" v-else-if="item.sold_out == 0 && isNew==true">注册后全返</div>
           <div class="generalize" v-if="isHomePage && index<3">
             <div class="top">Top</div>
             <div class="top_number">{{ index+1 }}</div>
@@ -18,12 +18,17 @@
         </div>
         <div class="right_box">
           <div class="text_show">【{{ item.merchant_name }}】 {{ item.product_name }}</div>
-          <div class="detail_box" :class="{'noStopTime':item.product_timelimit != 1}">
+          <div v-if="!isNew" class="detail_box" :class="{'noStopTime':item.product_timelimit != 1}">
             <span class="price">¥{{ item.temp_price }}</span>
             <span class="commission" v-if="level == 1"></span>
             <span class="commission" v-else-if="level == 2">返:{{ item.temp_commission.zigou }} ~ {{ item.temp_commission.fenxiang }}</span>
             <span class="commission" v-else-if="level == 3 || level == 4 || level == 5" >返:¥{{ item.temp_commission.zigou }}</span>
             <span class="sold_out">已售{{ item.product_sold }}</span>
+          </div>
+          <div v-else class="detail_box" :class="{'noStopTime':item.product_timelimit != 1}">
+            <span class="price">¥{{ item.temp_price }}</span>
+            <span class="commission"> 限购一单</span>
+            <span class="sold_out">限量 {{ item.product_totalnum }} 份</span>
           </div>
           <div v-if="item.product_timelimit == 1" class="count_down">距开始：</div>
         </div>
